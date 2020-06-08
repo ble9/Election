@@ -1,0 +1,107 @@
+<div *ngIf="electionDetail">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="row">Main Details</th>
+        <th scope="row"></th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th scope="col">Name</th>
+      <td>{{ electionDetail.election.name }}</td>
+    </tr>
+    <tr>
+      <th scope="col">Date</th>
+      <td>{{ electionDetail.election.electionDay | date }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="row">Polling Locations</th>
+        <th scope="row"></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let loc of electionDetail.pollingLocations">
+      <tr>
+        <th scope="col">{{ loc.address.locationName }}</th>
+        <td>
+          <a [href]="'https://www.google.com/maps/search/' + loc.address.line1 + ' ' + loc.address.city + ', ' + loc.address.state + ' ' + loc.address.zip">
+            {{ loc.address.line1 }}{{ loc.address.line2 ? ', ' + loc.address.line2 + '' : '' }} {{ loc.address.city }}, {{ loc.address.state }} {{ loc.address.zip }}
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th style="font-weight: normal">Polling Hours</th>
+        <td>{{ loc.pollingHours }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="row">Early Vote Sites</th>
+        <th scope="row"></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let loc of electionDetail.earlyVoteSites">
+      <tr>
+        <th scope="col">{{ loc.address.locationName }}</th>
+        <td>
+          <a [href]="'https://www.google.com/maps/search/' + loc.address.line1 + ' ' + loc.address.city + ', ' + loc.address.state + ' ' + loc.address.zip">
+            {{ loc.address.line1 }}{{ loc.address.line2 ? ', ' + loc.address.line2 + '' : '' }} {{ loc.address.city }}, {{ loc.address.state }} {{ loc.address.zip }}
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th style="font-weight: normal">Polling Hours</th>
+        <td>{{ loc.pollingHours }}</td>
+      </tr>
+      <tr>
+        <th style="font-weight: normal">Start Date</th>
+        <td>{{ loc.startDate | date }}</td>
+      </tr>
+      <tr>
+        <th style="font-weight: normal">End Date</th>
+        <td>{{ loc.endDate | date }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="row">Contests</th>
+        <th scope="row"></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let con of electionDetail.contests; let i = index">
+      <tr>
+        <th scope="col">ID</th>
+        <td>{{ i + 1 }}</td>
+      </tr>
+      <tr>
+        <th style="font-weight: normal">Office Name</th>
+        <td>{{ con.office || "No Name" }}</td>
+      </tr>
+      <tr *ngFor="let can of con.candidates">
+        <th style="font-weight: normal">{{ can.name }} ({{ can.party }})</th>
+        <td>
+          <a *ngIf="can.candidateUrl; else noUrl" [href]="can.candidateUrl">{{ can.candidateUrl }}</a>
+          <br>
+          <a *ngFor="let channel of can.channels" href="https://www.{{ channel.type }}.com/{{ channel.id }}">
+            <fa-icon [icon]="['fab', channel.type.toLowerCase()]"></fa-icon>
+          </a>
+        </td>
+        <ng-template #noUrl>No website information provided</ng-template>
+      </tr>
+      <tr>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

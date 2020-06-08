@@ -1,0 +1,48 @@
+<form>
+  <div *ngIf="error" class="alert alert-danger" role="alert" style="margin-top: 10px">
+    {{ error }}
+  </div>
+
+  <div class="form-group">
+    <label for="searchCategory">What do you seek?</label>
+    <select class="form-control" id="searchCategory" name="searchCategory" [(ngModel)]="searchCategory">
+      <option>Upcoming Elections</option>
+      <option>Representative Info</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="searchString">Search Criteria</label>
+    <input type="text" class="form-control" id="searchString" placeholder="Address" name="searchString" [(ngModel)]="searchString" value="1600 Pennsylvania Ave NW, Washington, DC 20500">
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="search()">Find {{ searchCategory }}</button>
+</form>
+
+<hr>
+
+<table class="table" *ngIf="!error && representativeSearch">
+  <thead>
+  <tr>
+    <th>Address Queried</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td><a [href]="'/representatives/' + normalAddress">{{ normalAddress }}</a></td>
+  </tr>
+  </tbody>
+</table>
+
+<table class="table" *ngIf="!error && electionSearch">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Election Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let election of filteredElections">
+      <td><a href (click)="!!navigateToElectionDetails(election, normalAddress)">{{ election?.name }}</a></td>
+      <td>{{ election?.electionDay | date }}</td>
+    </tr>
+  </tbody>
+</table>

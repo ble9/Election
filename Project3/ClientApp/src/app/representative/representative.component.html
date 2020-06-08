@@ -1,0 +1,21 @@
+<div class="card">
+  <img [src]="representative.photoUrl || genProfilePic" class="card-img-top" [alt]="representative.name">
+  <div class="card-body">
+    <h5 class="card-title">{{ representative.name }} - {{ representative.office.name }}</h5>
+    <h6 class="cart-text">{{ representative.party }}</h6>
+    <hr>
+    <p *ngFor="let url of representative.urls"><a [href]="url">{{ url }}</a></p>
+    <p *ngFor="let phone of representative.phones">{{ phone }}</p>
+    <p *ngIf="representative.address">{{ representative.address[0].line1 }} {{ representative.address[0].city }}, {{ representative.address[0].state }} {{ representative.address[0].zip }}</p>
+    <ul class="fa-ul">
+      <li *ngFor="let channel of representative.channels">
+        <span class="fa-li">
+          <fa-icon [icon]="['fab', channel.type.toLowerCase()]"></fa-icon>
+        </span>
+        <a href="https://www.{{ channel.type }}.com/{{ channel.id }}">
+            {{ channel.type }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div *ngIf="elections.length == 0">
+  Loading...
+</div>
+<div *ngIf="errorOccured">
+  <div class="alert alert-danger" role="alert">
+    A simple danger alert—check it out!
+  </div>
+</div>
+<table class="table" *ngIf="elections.length != 0">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Election Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let election of elections">
+      <td>{{ election.name }}</td>
+      <td>{{ election.electionDay | date }}</td>
+    </tr>
+  </tbody>
+</table>
